@@ -1,25 +1,43 @@
-class Bottles:
-    def song(self):
-        return self.verses(99, 0)
+class BottleVerse:
+    @classmethod
+    def lyrics(cls, number):
+        return cls(BottleNumber.for_number(number)).my_lyrics()
+        
+    def __init__(self, bottle_number):
+        self.bottle_number = bottle_number
+    
+    def my_lyrics(self):
+        return f"{self.bottle_number} of beer on the wall, ".capitalize() + \
+        f"{self.bottle_number} of beer.\n" + \
+        f"{self.bottle_number.action()}, " + \
+        f"{self.bottle_number.successor()} of beer on the wall.\n"
 
-    def verses(self, upper, lower):
-        return '\n'.join(map(self.verse, range(upper, lower-1, -1)))
+class CountdownSong:
+    def __init__(self, verse_template=BottleVerse, _max=99, _min=0):
+        self.verse_template = verse_template
+        self._max = _max
+        self._min = _min
+
+    def song(self):
+        return self.verses(self._max, self._min)
+
+    def verses(self, _max, _min):
+        return '\n'.join(map(self.verse, range(_max, _min-1, -1)))
 
     def verse(self, number):
-        bottle_number = BottleNumber.number_for(number)
-       
-        return f"{bottle_number} of beer on the wall, ".capitalize() + \
-        f"{bottle_number} of beer.\n" + \
-        f"{bottle_number.action()}, " + \
-        f"{bottle_number.successor()} of beer on the wall.\n"
+        return self.verse_template(number).lyrics(number)
+        
+# Demeter violation
+# remove constants
+# detail with instances instead of classes
 
-
+# Inject dependencies
 class BottleNumber:
     def __init__(self, number):
         self.number = number
 
     @classmethod
-    def number_for(cls, number):
+    def for_number(cls, number):
         if number == 0:
             return BottleNumber0(number)
         elif number == 1:
@@ -40,7 +58,7 @@ class BottleNumber:
         return 'one'
     
     def successor(self):
-        return BottleNumber.number_for(self.number - 1)
+        return BottleNumber.for_number(self.number - 1)
 
     def __repr__(self):
         return f"{self.quantity()} {self.container()}"
@@ -54,7 +72,7 @@ class BottleNumber0(BottleNumber):
         return "Go to the store and buy some more"
 
     def successor(self):
-        return BottleNumber.number_for(99)
+        return BottleNumber.for_number(99)
 
 
 class BottleNumber1(BottleNumber):
@@ -63,8 +81,3 @@ class BottleNumber1(BottleNumber):
     
     def pronoun(self):
         return "it"
-
-
-if __name__ == '__main__':
-    bottle = Bottles()
-    print(bottle.verses(2, 1))
