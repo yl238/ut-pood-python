@@ -9,10 +9,11 @@ class Bottles:
         bottle_number = BottleNumber(number)
         next_bottle_number = BottleNumber(bottle_number.successor)
 
-        return f"{bottle_number.quantity.capitalize()} {bottle_number.container} of beer on the wall, " \
-        f"{bottle_number.quantity} {bottle_number.container} of beer.\n"\
-        f"{bottle_number.action}, "\
-        f"{next_bottle_number.quantity} {next_bottle_number.container} of beer on the wall.\n"
+        return f"{bottle_number} of beer on the wall, ".capitalize() + \
+        f"{bottle_number} of beer.\n" + \
+        f"{bottle_number.action}, " + \
+        f"{next_bottle_number} of beer on the wall.\n"
+
 
     def amount(self, number):
         if number == 0:
@@ -51,6 +52,9 @@ class BottleNumber:
         self.container = self.set_container()
         self.action = self.set_action()
         self.successor = self.set_successor()
+
+    def __repr__(self):
+        return f"{self.quantity} {self.container}"
 
     def set_quantity(self):
         if self.number == 0:
