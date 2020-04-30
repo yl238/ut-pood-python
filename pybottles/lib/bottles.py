@@ -1,4 +1,7 @@
 class Bottles:
+    def __init__(self, verse_template=None):
+        self.verse_template = verse_template
+
     def song(self):
         return self.verses(99, 0)
 
@@ -6,14 +9,26 @@ class Bottles:
         return '\n'.join(map(self.verse, range(upper, lower-1, -1)))
 
     def verse(self, number):
-        bottle_number = BottleNumber.for_number(number)
-       
-        return f"{bottle_number} of beer on the wall, ".capitalize() + \
-        f"{bottle_number} of beer.\n" + \
-        f"{bottle_number.action()}, " + \
-        f"{bottle_number.successor()} of beer on the wall.\n"
+        return self.verse_template(number).lyrics(number)
+        
+# Demeter violation
+# remove constants
+# detail with instances instead of classes
+class BottleVerse:
+    @classmethod
+    def lyrics(cls, number):
+        return cls(BottleNumber(number)).my_lyrics()
+        
+    def __init__(self, bottle_number):
+        self.bottle_number = bottle_number
+    
+    def my_lyrics(self):
+        return f"{self.bottle_number} of beer on the wall, ".capitalize() + \
+        f"{self.bottle_number} of beer.\n" + \
+        f"{self.bottle_number.action()}, " + \
+        f"{self.bottle_number.successor()} of beer on the wall.\n"
 
-
+    
 class BottleNumber:
     def __init__(self, number):
         self.number = number
