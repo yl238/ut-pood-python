@@ -39,11 +39,11 @@ class BottleNumber:
     def pronoun(self):
         return 'one'
     
-    def __repr__(self):
-        return f"{self.quantity()} {self.container()}"
-    
     def successor(self):
         return BottleNumber.number_for(self.number - 1)
+
+    def __repr__(self):
+        return f"{self.quantity()} {self.container()}"
 
 
 class BottleNumber0(BottleNumber):
