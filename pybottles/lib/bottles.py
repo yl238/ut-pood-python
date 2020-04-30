@@ -6,69 +6,65 @@ class Bottles:
         return '\n'.join(map(self.verse, range(upper, lower-1, -1)))
 
     def verse(self, number):
-        bottle_number = self.bottle_number_for(number)
-        next_bottle_number = self.bottle_number_for(bottle_number.successor)
-
+        bottle_number = BottleNumber.number_for(number)
+       
         return f"{bottle_number} of beer on the wall, ".capitalize() + \
         f"{bottle_number} of beer.\n" + \
-        f"{bottle_number.action}, " + \
-        f"{next_bottle_number} of beer on the wall.\n"
+        f"{bottle_number.action()}, " + \
+        f"{bottle_number.successor()} of beer on the wall.\n"
 
-    def bottle_number_for(self, number):
+
+class BottleNumber:
+    def __init__(self, number):
+        self.number = number
+
+    @classmethod
+    def number_for(cls, number):
         if number == 0:
             return BottleNumber0(number)
         elif number == 1:
             return BottleNumber1(number)
         else:
-            return BottleNumber(number) 
+            return cls(number)
 
-class BottleNumber:
-    def __init__(self, number):
-        self.number = number
-        self.quantity = self.set_quantity()
-        self.container = self.set_container()
-        self.action = self.set_action()
-        self.pronoun = self.set_pronoun()
-        self.successor = self.set_successor()
+    def quantity(self):
+        return self.number
 
-    def __repr__(self):
-        return f"{self.quantity} {self.container}"
-
-    def set_quantity(self):
-        return str(self.number)
-
-    def set_container(self):
+    def container(self):
         return "bottles"
 
-    def set_action(self):
-        return f"Take {self.set_pronoun()} down and pass it around"
+    def action(self):
+        return f"Take {self.pronoun()} down and pass it around"
     
-    def set_pronoun(self):
+    def pronoun(self):
         return 'one'
     
-    def set_successor(self):
-        return self.number - 1
+    def __repr__(self):
+        return f"{self.quantity()} {self.container()}"
+    
+    def successor(self):
+        return BottleNumber.number_for(self.number - 1)
 
 
 class BottleNumber0(BottleNumber):
-    def set_quantity(self):
+    def quantity(self):
         return "no more"
 
-    def set_action(self):
+    def action(self):
         return "Go to the store and buy some more"
 
-    def set_successor(self):
-        return 99
+    def successor(self):
+        return BottleNumber.number_for(99)
+
 
 class BottleNumber1(BottleNumber):
-    def set_container(self):
+    def container(self):
         return 'bottle'
     
-    def set_pronoun(self):
+    def pronoun(self):
         return "it"
-
 
 
 if __name__ == '__main__':
     bottle = Bottles()
-    print(bottle.song())
+    print(bottle.verses(2, 1))
