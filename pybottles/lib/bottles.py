@@ -12,15 +12,17 @@ class BottleVerse:
         f"{self.bottle_number.action()}, " + \
         f"{self.bottle_number.successor()} of beer on the wall.\n"
 
-class Bottles:
-    def __init__(self, verse_template=BottleVerse):
+class CountdownSong:
+    def __init__(self, verse_template=BottleVerse, _max=99, _min=0):
         self.verse_template = verse_template
+        self._max = _max
+        self._min = _min
 
     def song(self):
-        return self.verses(99, 0)
+        return self.verses(self._max, self._min)
 
-    def verses(self, upper, lower):
-        return '\n'.join(map(self.verse, range(upper, lower-1, -1)))
+    def verses(self, _max, _min):
+        return '\n'.join(map(self.verse, range(_max, _min-1, -1)))
 
     def verse(self, number):
         return self.verse_template(number).lyrics(number)
@@ -77,8 +79,3 @@ class BottleNumber1(BottleNumber):
     
     def pronoun(self):
         return "it"
-
-
-if __name__ == '__main__':
-    bottle = Bottles()
-    print(bottle.verses(2, 1))
