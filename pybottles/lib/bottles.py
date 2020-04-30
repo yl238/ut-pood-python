@@ -30,6 +30,8 @@ class CountdownSong:
 # Demeter violation
 # remove constants
 # detail with instances instead of classes
+
+# Inject dependencies
 class BottleNumber:
     def __init__(self, number):
         self.number = number
