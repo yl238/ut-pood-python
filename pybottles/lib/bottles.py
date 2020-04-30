@@ -6,7 +6,7 @@ class Bottles:
         return '\n'.join(map(self.verse, range(upper, lower-1, -1)))
 
     def verse(self, number):
-        bottle_number = BottleNumber.number_for(number)
+        bottle_number = BottleNumber.for_number(number)
        
         return f"{bottle_number} of beer on the wall, ".capitalize() + \
         f"{bottle_number} of beer.\n" + \
@@ -19,7 +19,7 @@ class BottleNumber:
         self.number = number
 
     @classmethod
-    def number_for(cls, number):
+    def for_number(cls, number):
         if number == 0:
             return BottleNumber0(number)
         elif number == 1:
@@ -40,7 +40,7 @@ class BottleNumber:
         return 'one'
     
     def successor(self):
-        return BottleNumber.number_for(self.number - 1)
+        return BottleNumber.for_number(self.number - 1)
 
     def __repr__(self):
         return f"{self.quantity()} {self.container()}"
@@ -54,7 +54,7 @@ class BottleNumber0(BottleNumber):
         return "Go to the store and buy some more"
 
     def successor(self):
-        return BottleNumber.number_for(99)
+        return BottleNumber.for_number(99)
 
 
 class BottleNumber1(BottleNumber):
