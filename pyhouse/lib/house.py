@@ -28,14 +28,13 @@ class House(object):
 
     def line(self, number):
         return f"{self.prefix()} {self.phrase(number)}.\n"
-
+        
 
 # This is a little ugly, but shuffle works in-place
 class RandomHouse(House):
     def data(self):
         random.shuffle(super(RandomHouse, self).data())
         return super(RandomHouse, self).data()
-
 
 class PirateHouse(House):
     def prefix(self):
