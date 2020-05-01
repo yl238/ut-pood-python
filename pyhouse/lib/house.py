@@ -1,9 +1,5 @@
 class House:
-    def recite(self):
-        return '\n'.join([self.line(i) for i in range(1, 13)])
-
-    def phrase(self, number):
-        return " ".join(["the horse and the hound and the horn that belonged to",
+    DATA = ["the horse and the hound and the horn that belonged to",
       "the farmer sowing his corn that kept",
       "the rooster that crowed in the morn that woke",
       "the priest all shaven and shorn that married",
@@ -14,7 +10,16 @@ class House:
       "the cat that killed",
       "the rat that ate",
       "the malt that lay in",
-      ""][-number:])
+      ""]
+
+    def data(self):
+        return self.DATA
+
+    def recite(self):
+        return '\n'.join([self.line(i) for i in range(1, 13)])
+
+    def phrase(self, number):
+        return " ".join(self.data()[-number:])
 
     def line(self, number):
         return "This is " + self.phrase(number) + "the house that Jack built.\n"
