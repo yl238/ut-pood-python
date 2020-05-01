@@ -1,5 +1,23 @@
 import random
 
+class RandomOrderer(object):
+    def order(self, data):
+        random.shuffle(data)
+        return data
+
+class OriginalOrderer(object):
+    def order(self, data):
+        return data
+
+
+class PiratePrefixer(object):
+    def prefix(self):
+        return 'Thar be'
+
+class MundanePrefixer(object):
+    def prefix(self):
+        return 'This is'
+
 class House(object):
     DATA = ["the horse and the hound and the horn that belonged to",
       "the farmer sowing his corn that kept",
@@ -14,34 +32,22 @@ class House(object):
       "the malt that lay in",
       "the house that Jack built"]
 
-    def data(self):
-        return self.DATA
+    def __init__(self, orderer=OriginalOrderer(), prefixer=MundanePrefixer()):
+        self.data = orderer.order(self.DATA)
+        self.prefix = prefixer.prefix()
 
     def recite(self):
         return '\n'.join([self.line(i) for i in range(1, 13)])
 
     def phrase(self, number):
-        return " ".join(self.data()[-number:])
+        return " ".join(self.data[-number:])
 
-    def prefix(self):
-        return "This is"
 
     def line(self, number):
-        return f"{self.prefix()} {self.phrase(number)}.\n"
-        
-
-# This is a little ugly, but shuffle works in-place
-class RandomHouse(House):
-    def data(self):
-        random.shuffle(super(RandomHouse, self).data())
-        return super(RandomHouse, self).data()
-
-class PirateHouse(House):
-    def prefix(self):
-        return "Thar be"
+        return f"{self.prefix} {self.phrase(number)}.\n"
 
 
 if __name__ == '__main__':
-    print(PirateHouse().line(12))
-
-    
+    print(House(orderer=RandomOrderer()).line(12))
+    print(House(prefixer=PiratePrefixer()).line(12))
+    print(House(prefixer=PiratePrefixer(), orderer=RandomOrderer()).line(12))    

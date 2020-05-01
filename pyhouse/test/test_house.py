@@ -1,14 +1,5 @@
 import unittest
-import pytest
-from pyhouse.lib.house import House, PirateHouse
-
-class PirateHouseTest(unittest.TestCase):
-    def setUp(self):
-        self.tale = PirateHouse()
-
-    def test_line_1(self):
-        expected = "Thar be the house that Jack built.\n"
-        self.assertEqual(expected, self.tale.line(1))
+from pyhouse.lib.house import House
 
 
 class HouseTest(unittest.TestCase):
