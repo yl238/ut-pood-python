@@ -1,10 +1,10 @@
 import unittest
-from pyhouse.lib.house import House
+from pyhouse.lib.house import CumulativeTale
 
 
-class HouseTest(unittest.TestCase):
+class CumulativeTaleTest(unittest.TestCase):
     def setUp(self):
-        self.tale = House()
+        self.tale = CumulativeTale()
 
     def test_line_1(self):
         expected = "This is the house that Jack built.\n"
